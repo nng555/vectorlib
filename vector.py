@@ -8,7 +8,7 @@ python array as its underlying data structure.
 
 class Vector:
 
-    def __init__(self, values=None, shape=None)
+    def __init__(self, values=None, shape=None):
         """
         Initialize the vector
 

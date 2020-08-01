@@ -10,7 +10,7 @@ uses a 2d python array as its underlying data structure.
 
 class LinearTransform:
 
-    def __init__(self, transform)
+    def __init__(self, transform):
         """
         Initialize the transformation matrix
 
@@ -18,7 +18,7 @@ class LinearTransform:
         """
 
     @classmethod
-    def random_init(self, in_dim, out_dim)
+    def random_init(self, in_dim, out_dim):
         """
         Initialize the transformation matrix randomly as
         out_dim x in_dim
@@ -27,13 +27,13 @@ class LinearTransform:
         out_dim - transformation output dimension
         """
 
-    def forward(self, v, axis=):
+    def forward(self, v):
         """
         Apply the linear transformation to a vector.
         Verify first that the dimensions are compatible.
         Then apply the transformation as W(v.T)
 
-        t - linear transformation to apply
+        v - vector to apply transformation to
 
         returns - transformed vector
         """
