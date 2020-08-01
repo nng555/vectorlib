@@ -25,3 +25,7 @@ To get familiar with vectors, matrices, and transformations, as well as build up
 2. Implement the random init constructor. The resulting transformation matrix should be of the size in_dim x out_dim.
 
 3. Implement the `forward` function. This will pass a vector through the transformation, and return the resulting transformed vector.
+
+## Testing your code
+
+To test your code, I have provided some unit tests for each of the basic functionalities. You may want to add your own, or use them to test the problems in the Linear Algebra textbook. To run the tests, simply run the corresponding file, like `python vector.py`.
