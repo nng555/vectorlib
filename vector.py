@@ -22,7 +22,8 @@ class Vector:
 
         raise NotImplementedError
 
-    def __init__(self, v2):
+    @classmethod
+    def copy_init(self, v2):
         """
         Initialize by performing a deep copy of v2
 
