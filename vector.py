@@ -4,6 +4,8 @@ import unittest
 """
 This class implements a simple vector object that uses a multidimensional
 python array as its underlying data structure.
+
+test
 """
 
 class Vector:
@@ -105,4 +107,3 @@ class VectorTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-
