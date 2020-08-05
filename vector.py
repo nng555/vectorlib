@@ -1,5 +1,6 @@
 import random
 import unittest
+import numpy as np
 
 """
 This class implements a simple vector object that uses a multidimensional
@@ -19,8 +20,35 @@ class Vector:
         shape - an array containing vector dimensions
                 if None, then set based on values
         """
+        #if both values and shape are empty
+        if(values==None and shape==None):
+            raise Exception('both cannot be none')
+        #if only values is empty
+        elif(values == None and shape != None):
+            self.shape = shape
+
+            self.values = numpy.zeros(self.shape)
+            for x in self.values:
+                x = numpy.random.normal()
+
+            """self.rows = shape[0]
+            self.columns = self.shape[1]
+            self.values = [[numpy.random.normal()] for i in columns]*rows]
+
+            for i in range(self.rows):
+                for j in range(self.columns):
+                    self.values[i][j]=numpy.random.normal()"""
+        #if only shape is empty
+        elif(values != None and shape == None):
+            self.values = values
+            self.shape = list(np.shape(self.values))
+
+        # both are defined
         # initialize self.values
         # initialize self.shape
+        else:
+            self.values=values
+            self.shape=shape
 
         raise NotImplementedError
 
