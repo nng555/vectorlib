@@ -11,47 +11,46 @@ test
 
 class Vector:
 
-    def __init__(self, values=None, shape=None):
-        """
-        Initialize the vector
 
-        values - the array values to store in the vector
+    def matrix(self, shape):
+
+        if(len(shape)==1):
+            return [(np.random.normal()) for i in range(shape[0])]
+        else:
+            return [self.matrix(shape[1:])for x in range(shape[0])]
+
+    def __init__(self, values=None, shape=None):
+        '''
+        Initialize the vector
+    values - the array values to store in the vector
                  if None, then fill randomly based on shape
         shape - an array containing vector dimensions
                 if None, then set based on values
-        """
-        #if both values and shape are empty
-        if(values==None and shape==None):
-            raise Exception('both cannot be none')
-        #if only values is empty
-        elif(values == None and shape != None):
+        '''
+
+        if(values==None and shape != None):
             self.shape = shape
-            self.values = np.random.randint(-100,100,self.shape)
-            #self.values.fill(np.random.normal())
-
-            """
-            self.values = [[[0]*self.shape[0] for x in range(self.shape[1])]*self.shape[1] for y in range(self.shape[2])]
-
-            for i in range(self.shape[0]):
-                for j in range(self.shape[1]):
-                    for k in range(self.shape[2]):
-                        self.values[i][j][k]=int(np.random.normal())
+            self.cntr = 0
+            self.values = self.matrix(self.shape)
 
         #if only shape is empty
         elif(values != None and shape == None):
             self.values = values
             self.shape = list(np.shape(self.values))
-
         # both are defined
         # initialize self.values
         # initialize self.shape
-        else:
+        elif(values != None and shape != None):
             self.values=values
-            self.shape=shape"""
+            self.shape=shape
+        else:
+            raise Exception('Both cannot be none')
 
         #raise NotImplementedError
 
     @classmethod
+
+
     def copy_init(self, v2):
         """
         Initialize by performing a deep copy of v2
@@ -134,5 +133,5 @@ class VectorTest(unittest.TestCase):
 
 if __name__ == "__main__":
     #unittest.main()
-    test = Vector(None,[2,2,1])
+    test = Vector(None,[5,2,2,2])
     print (test.values)
