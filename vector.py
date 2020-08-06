@@ -22,12 +22,13 @@ class Vector:
     def __init__(self, values=None, shape=None):
         '''
         Initialize the vector
-    values - the array values to store in the vector
+        values - the array values to store in the vector
                  if None, then fill randomly based on shape
         shape - an array containing vector dimensions
                 if None, then set based on values
         '''
 
+        #if shape defined and values are empty
         if(values==None and shape != None):
             self.shape = shape
             self.cntr = 0
@@ -37,6 +38,7 @@ class Vector:
         elif(values != None and shape == None):
             self.values = values
             self.shape = list(np.shape(self.values))
+
         # both are defined
         # initialize self.values
         # initialize self.shape
@@ -50,13 +52,13 @@ class Vector:
 
     @classmethod
 
-
     def copy_init(self, v2):
         """
         Initialize by performing a deep copy of v2
 
         v2 - vector to copy
         """
+        return deepcopy(v2)
         raise NotImplementedError
 
     def l2(self, v2):
@@ -113,8 +115,8 @@ class VectorTest(unittest.TestCase):
         self.assertEqual(self.v1.shape, [4])
         self.assertEqual(self.v3.shape, [4])
         self.assertEqual(self.v4.shape, [4, 4])
-        tmp = Vector(shape=[6,2])
-        self.assertEqual(tmp.shape, [6,2])
+        tmp = Vector(shape=[7,6,2])
+        self.assertEqual(tmp.shape, [7,6,2])
 
     # test the deep copy
     def testCopy(self):
@@ -132,6 +134,6 @@ class VectorTest(unittest.TestCase):
         self.assertAlmostEqual(self.v2.l2(self.v3), 3.4641)
 
 if __name__ == "__main__":
-    #unittest.main()
-    test = Vector(None,[5,2,2,2])
-    print (test.values)
+    unittest.main()
+    #test = Vector(None,[5,2,2,2])
+    #print (test.values)
