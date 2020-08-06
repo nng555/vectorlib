@@ -26,18 +26,17 @@ class Vector:
         #if only values is empty
         elif(values == None and shape != None):
             self.shape = shape
+            self.values = np.random.randint(-100,100,self.shape)
+            #self.values.fill(np.random.normal())
 
-            self.values = numpy.zeros(self.shape)
-            for x in self.values:
-                x = numpy.random.normal()
+            """
+            self.values = [[[0]*self.shape[0] for x in range(self.shape[1])]*self.shape[1] for y in range(self.shape[2])]
 
-            """self.rows = shape[0]
-            self.columns = self.shape[1]
-            self.values = [[numpy.random.normal()] for i in columns]*rows]
+            for i in range(self.shape[0]):
+                for j in range(self.shape[1]):
+                    for k in range(self.shape[2]):
+                        self.values[i][j][k]=int(np.random.normal())
 
-            for i in range(self.rows):
-                for j in range(self.columns):
-                    self.values[i][j]=numpy.random.normal()"""
         #if only shape is empty
         elif(values != None and shape == None):
             self.values = values
@@ -48,9 +47,9 @@ class Vector:
         # initialize self.shape
         else:
             self.values=values
-            self.shape=shape
+            self.shape=shape"""
 
-        raise NotImplementedError
+        #raise NotImplementedError
 
     @classmethod
     def copy_init(self, v2):
@@ -134,4 +133,6 @@ class VectorTest(unittest.TestCase):
         self.assertAlmostEqual(self.v2.l2(self.v3), 3.4641)
 
 if __name__ == "__main__":
-    unittest.main()
+    #unittest.main()
+    test = Vector(None,[2,2,1])
+    print (test.values)
