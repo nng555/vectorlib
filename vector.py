@@ -1,5 +1,6 @@
 import random
 import unittest
+import copy
 import numpy as np
 
 """
@@ -58,8 +59,10 @@ class Vector:
 
         v2 - vector to copy
         """
-        return deepcopy(v2)
-        raise NotImplementedError
+        self.vals = v2.values
+        self.copy = copy.deepcopy(Vector(self.vals,None))
+        return self.copy
+        #raise NotImplementedError
 
     def l2(self, v2):
         """
@@ -80,7 +83,8 @@ class Vector:
 
         returns - whether vectors match or not
         """
-        raise NotImplementedError
+
+        #raise NotImplementedError
 
     def transpose(self):
         """
@@ -120,7 +124,7 @@ class VectorTest(unittest.TestCase):
 
     # test the deep copy
     def testCopy(self):
-        tmp = Vector(self.v4)
+        tmp = Vector(self.v4, None)
         self.assertEqual(tmp, self.v4)
 
     # test transposing row to column vector
@@ -135,5 +139,12 @@ class VectorTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-    #test = Vector(None,[5,2,2,2])
-    #print (test.values)
+    '''test = Vector(None,[5,2])
+    print(test.values)
+    temp = test.copy_init(test)
+    print(temp.values)
+    test.values[0][1]=1
+    print(test.values)
+    print(temp.values)'''
+
+    #print (test.copy_init(test))
