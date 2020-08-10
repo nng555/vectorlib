@@ -72,6 +72,7 @@ class Vector:
 
         returns - distance to v2
         """
+
         raise NotImplementedError
 
     def __eq__(self, v2):
@@ -83,6 +84,11 @@ class Vector:
 
         returns - whether vectors match or not
         """
+
+        if (self.values == v2.values and self.shape == v2.shape):
+            return True
+        else:
+            return False
 
         #raise NotImplementedError
 
@@ -124,7 +130,7 @@ class VectorTest(unittest.TestCase):
 
     # test the deep copy
     def testCopy(self):
-        tmp = Vector(self.v4, None)
+        tmp = Vector(self.v4)
         self.assertEqual(tmp, self.v4)
 
     # test transposing row to column vector
@@ -138,13 +144,20 @@ class VectorTest(unittest.TestCase):
         self.assertAlmostEqual(self.v2.l2(self.v3), 3.4641)
 
 if __name__ == "__main__":
-    unittest.main()
-    '''test = Vector(None,[5,2])
+    #unittest.main()
+    test = Vector([[1, 2, 3, 4],
+          [2, 3, 4, 5],
+          [3, 4, 5, 6],
+          [4, 5, 6, 7]],None)
     print(test.values)
     temp = test.copy_init(test)
     print(temp.values)
-    test.values[0][1]=1
-    print(test.values)
-    print(temp.values)'''
+    
+    tmp = Vector([[1, 2, 3, 4],
+          [2, 3, 4, 5],
+          [3, 4, 5, 6],
+          [4, 5, 6, 7]], None)
+    print (tmp.shape)
+    print(test.__eq__(tmp))
 
     #print (test.copy_init(test))
