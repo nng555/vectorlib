@@ -103,7 +103,16 @@ class Vector:
 
         returns - transpose vector
         """
-        raise NotImplementedError
+        self.temp = []
+        self.cntr = 0
+        i = len(self.shape)
+        while i >=0:
+            self.temp[self.cntr] = self.shape[i-1]
+            self.cntr = self.cntr + 1
+            i = i -1
+
+        return self.temp
+        #raise NotImplementedError
 
 class VectorTest(unittest.TestCase):
     # vector class unit tests
@@ -147,6 +156,7 @@ class VectorTest(unittest.TestCase):
         self.assertAlmostEqual(self.v2.l2(self.v3), 3.4641)
 
 if __name__ == "__main__":
+<<<<<<< Updated upstream
     unittest.main()
 
     # TODO: If you want to print test values, you can do it inside the tests...
@@ -158,14 +168,29 @@ if __name__ == "__main__":
     temp = test.copy_init(test)
     print(temp.values)
 
+=======
+    #unittest.main()
+    test = Vector(None,[2,2,2,2])
+    print(test.values)
+    temp = test.copy_init(test)
+    print(temp.values)
+>>>>>>> Stashed changes
     tmp = Vector([[1, 2, 3, 4],
           [2, 3, 4, 5],
           [3, 4, 5, 6],
           [4, 5, 6, 7]], None)
     print (tmp.shape)
+<<<<<<< Updated upstream
 
     # TODO: the __eq__ method overrides the `==` operator, so you can
     # call it like `test == tmp`
     print(test.__eq__(tmp))
+=======
+    print(test.__eq__(temp))
+    print(test.shape)
+
+    print(test.transpose())
+    #print
+>>>>>>> Stashed changes
 
     #print (test.copy_init(test))
