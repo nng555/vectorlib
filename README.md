@@ -29,3 +29,32 @@ To get familiar with vectors, matrices, and transformations, as well as build up
 ## Testing your code
 
 To test your code, I have provided some unit tests for each of the basic functionalities. You may want to add your own, or use them to test the problems in the Linear Algebra textbook. To run the tests, simply run the corresponding file, like `python vector.py`.
+
+# kNN
+
+Now that we are familiar with vectors and linear transformations and have a functioning library, we will implement our first algorithm, k-Nearest Neighbors!
+
+This will be implemented in the file `knn.py`, which includes a class `kNN` with three methods you will have to implement.
+
+1. `__init__` will construct the raw model including any hyperparameters we need to set (specifically k)
+
+2. `fit` will take in a training dataset (x, y) which should be a 2-d and 1-d vector containing the input vectors and output labels, and should store them for prediction later.
+
+3. `predict` will take in a query point (1-d vector) or query points (2-d vector) and return predictions for all points using the kNN algorithm.
+
+## UCI Iris Dataset
+
+To test our algorithm, we will use the [UCI Iris Dataset](https://archive.ics.uci.edu/ml/machine-learning-databases/iris/). This dataset contains 150 data points of flower measurements and flower names. Our task will be to learn to predict the flower name based on its measurements.
+After running the experiments, you will write up your results in a report, just like a real scientist! I will provide a template later.
+
+### Preprocessing the Data
+
+The first step of any experiments we run will be to download and preprocess your data. 
+
+1. Download the file `iris.data` from the link above. We will store this in a new `data` folder.
+
+2. Complete the script `preprocess.py` which will take in an input file of raw data and output our preprocessed training, validation, and test data.
+
+### Tuning the Hyperparameters
+
+Once our data is preprocessed, we can start running experiments on our data.
