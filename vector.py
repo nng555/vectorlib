@@ -62,6 +62,12 @@ class Vector:
         #raise NotImplementedError
 
     def distance(self,vals,shapes):
+        """
+        recursive method to calculate distance
+
+        returns sum of all of the distances
+
+        """
         num = 0
         sum = 0
         if(len(shapes)==1):
@@ -79,6 +85,7 @@ class Vector:
 
         returns - distance to v2
         """
+        # uses recursive distance method and takes the square root of it
         return sqrt(self.distance(v2.values, v2.shape))
 
         #raise NotImplementedError
@@ -173,24 +180,3 @@ class VectorTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
-
-    # TODO: If you want to print test values, you can do it inside the tests...
-    '''test = Vector([[1, 2, 3, 4],
-          [2, 3, 4, 5],
-          [3, 4, 5, 6],
-          [4, 5, 6, 7]],None)
-    print(test.values)
-    temp = test.copy_init(test)
-    print(temp.values)
-
-    tmp = Vector([[1, 2, 3, 4],
-          [2, 3, 4, 5],
-          [3, 4, 5, 6],
-          [4, 5, 6, 7]], None)
-    print (tmp.shape)
-
-    # TODO: the __eq__ method overrides the `==` operator, so you can
-    # call it like `test == tmp`
-    print(test.__eq__(tmp))'''
-
-    #print (test.copy_init(test))
