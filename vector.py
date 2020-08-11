@@ -100,14 +100,12 @@ class Vector:
 
         #just for 1d or 2d arrays
         if(len(self.shape)==1):
-            #self.shape.insert(0,1)
             switch = self.matrix([self.shape[0],1])
             for i in range(self.shape[0]):
                 switch[i][0] = self.values[i]
 
         else:
             switch = self.matrix([self.shape[1], self.shape[0]])
-
             for i in range(self.shape[0]):
                 for j in range(self.shape[1]):
                     switch[j][i] = self.values[i][j]
