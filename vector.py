@@ -61,6 +61,16 @@ class Vector:
         return copy.deepcopy(Vector(v2.values,None))
         #raise NotImplementedError
 
+    def distance(self,vals,shapes):
+        num = 0
+        sum = 0
+        if(len(shapes)==1):
+            for i in range(shapes[0]):
+                sum += ((self.values[i]-vals[i])**2)
+            return sum
+        else:
+            return num+distance(vals, shape[1:])
+
     def l2(self, v2):
         """
         Calculate the l2 distance to the vector v2
@@ -69,17 +79,7 @@ class Vector:
 
         returns - distance to v2
         """
-
-    '''    if(len(shape)==1):
-            return((self.values[i]-v2.values[i])**2 for i in )
-            return [(np.random.normal()) for i in range(shape[0])]
-        else:
-            return [self.matrix(shape[1:])for x in range(shape[0])]'''
-
-
-
-
-
+        return sqrt(self.distance(v2.values, v2.shape))
 
         #raise NotImplementedError
 
@@ -166,8 +166,10 @@ class VectorTest(unittest.TestCase):
 
     # test calculating l2 distance
     def testl2(self):
-        self.assertAlmostEqual(self.v1.l2(self.v2), 4.0)
-        self.assertAlmostEqual(self.v2.l2(self.v3), 3.4641)
+        print(self.v1.l2(self.v2))
+        print(self.v2.l2(self.v3))
+        self.assertAlmostEqual(self.v1.l2(self.v2), 4.0, places=4)
+        self.assertAlmostEqual(self.v2.l2(self.v3), 3.4641, places=4)
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
