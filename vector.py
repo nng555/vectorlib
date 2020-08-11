@@ -32,18 +32,21 @@ class Vector:
         #if shape defined and values are empty
         if(values==None and shape != None):
             self.shape = shape
+            # TODO: This variable is unused
             self.cntr = 0
             self.values = self.matrix(self.shape)
 
         #if only shape is empty
         elif(values != None and shape == None):
             self.values = values
+            # TODO: Not allowed to use np here...you need to get the shape yourself
             self.shape = list(np.shape(self.values))
 
         # both are defined
         # initialize self.values
         # initialize self.shape
         elif(values != None and shape != None):
+            # TODO: when doing assignments, add spaces between the equals sign
             self.values=values
             self.shape=shape
         else:
@@ -52,7 +55,6 @@ class Vector:
         #raise NotImplementedError
 
     @classmethod
-
     def copy_init(self, v2):
         """
         Initialize by performing a deep copy of v2
@@ -60,6 +62,7 @@ class Vector:
         v2 - vector to copy
         """
         self.vals = v2.values
+        # TODO: Why is copy a class variable? no need to store it, its only local
         self.copy = copy.deepcopy(Vector(self.vals,None))
         return self.copy
         #raise NotImplementedError
@@ -130,7 +133,7 @@ class VectorTest(unittest.TestCase):
 
     # test the deep copy
     def testCopy(self):
-        tmp = Vector(self.v4)
+        tmp = Vector.copy_init(self.v4)
         self.assertEqual(tmp, self.v4)
 
     # test transposing row to column vector
@@ -144,7 +147,9 @@ class VectorTest(unittest.TestCase):
         self.assertAlmostEqual(self.v2.l2(self.v3), 3.4641)
 
 if __name__ == "__main__":
-    #unittest.main()
+    unittest.main()
+
+    # TODO: If you want to print test values, you can do it inside the tests...
     test = Vector([[1, 2, 3, 4],
           [2, 3, 4, 5],
           [3, 4, 5, 6],
@@ -152,12 +157,15 @@ if __name__ == "__main__":
     print(test.values)
     temp = test.copy_init(test)
     print(temp.values)
-    
+
     tmp = Vector([[1, 2, 3, 4],
           [2, 3, 4, 5],
           [3, 4, 5, 6],
           [4, 5, 6, 7]], None)
     print (tmp.shape)
+
+    # TODO: the __eq__ method overrides the `==` operator, so you can
+    # call it like `test == tmp`
     print(test.__eq__(tmp))
 
     #print (test.copy_init(test))
