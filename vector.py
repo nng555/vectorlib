@@ -138,6 +138,7 @@ class VectorTest(unittest.TestCase):
         self.assertEqual(self.v3.shape, [4])
         self.assertEqual(self.v4.shape, [4, 4])
         tmp = Vector(shape=[7,6,2])
+        print(tmp.shape)
         self.assertEqual(tmp.shape, [7,6,2])
 
     # test the deep copy
@@ -156,7 +157,7 @@ class VectorTest(unittest.TestCase):
         self.assertAlmostEqual(self.v2.l2(self.v3), 3.4641)
 
 if __name__ == "__main__":
-    unittest.main()
+    unittest.main(verbosity=2)
 
     # TODO: If you want to print test values, you can do it inside the tests...
     test = Vector([[1, 2, 3, 4],
