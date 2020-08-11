@@ -32,8 +32,6 @@ class Vector:
         #if shape defined and values are empty
         if(values==None and shape != None):
             self.shape = shape
-            # TODO: This variable is unused
-            self.cntr = 0
             self.values = self.matrix(self.shape)
 
         #if only shape is empty
@@ -46,9 +44,8 @@ class Vector:
         # initialize self.values
         # initialize self.shape
         elif(values != None and shape != None):
-            # TODO: when doing assignments, add spaces between the equals sign
-            self.values=values
-            self.shape=shape
+            self.values = values
+            self.shape = shape
         else:
             raise Exception('Both cannot be none')
 
@@ -61,10 +58,7 @@ class Vector:
 
         v2 - vector to copy
         """
-        self.vals = v2.values
-        # TODO: Why is copy a class variable? no need to store it, its only local
-        self.copy = copy.deepcopy(Vector(self.vals,None))
-        return self.copy
+        return copy.deepcopy(Vector(v2.values,None))
         #raise NotImplementedError
 
     def l2(self, v2):
@@ -103,15 +97,23 @@ class Vector:
 
         returns - transpose vector
         """
-        self.temp = []
-        self.cntr = 0
-        i = len(self.shape)
-        while i >=0:
-            self.temp[self.cntr] = self.shape[i-1]
-            self.cntr = self.cntr + 1
-            i = i -1
 
-        return self.temp
+        #just for 1d or 2d arrays
+        if(len(self.shape)==1):
+            #self.shape.insert(0,1)
+            switch = self.matrix([self.shape[0],1])
+            for i in range(self.shape[0]):
+                switch[i][0] = self.values[i]
+
+        else:
+            switch = self.matrix([self.shape[1], self.shape[0]])
+
+            for i in range(self.shape[0]):
+                for j in range(self.shape[1]):
+                    switch[j][i] = self.values[i][j]
+
+        flip = Vector(switch,None)
+        return flip
         #raise NotImplementedError
 
 class VectorTest(unittest.TestCase):
@@ -137,9 +139,10 @@ class VectorTest(unittest.TestCase):
         self.assertEqual(self.v1.shape, [4])
         self.assertEqual(self.v3.shape, [4])
         self.assertEqual(self.v4.shape, [4, 4])
-        tmp = Vector(shape=[7,6,2])
+        tmp = Vector(shape=[2,2,2])
         print(tmp.shape)
-        self.assertEqual(tmp.shape, [7,6,2])
+        print(tmp.values)
+        self.assertEqual(tmp.shape, [2,2,2])
 
     # test the deep copy
     def testCopy(self):
@@ -149,6 +152,7 @@ class VectorTest(unittest.TestCase):
     # test transposing row to column vector
     def testTranspose(self):
         tmp = Vector([[2], [6], [3], [5]])
+        print(self.v3.shape)
         self.assertEqual(tmp, self.v3.transpose())
 
     # test calculating l2 distance
@@ -160,7 +164,7 @@ if __name__ == "__main__":
     unittest.main(verbosity=2)
 
     # TODO: If you want to print test values, you can do it inside the tests...
-    test = Vector([[1, 2, 3, 4],
+    '''test = Vector([[1, 2, 3, 4],
           [2, 3, 4, 5],
           [3, 4, 5, 6],
           [4, 5, 6, 7]],None)
@@ -176,6 +180,6 @@ if __name__ == "__main__":
 
     # TODO: the __eq__ method overrides the `==` operator, so you can
     # call it like `test == tmp`
-    print(test.__eq__(tmp))
+    print(test.__eq__(tmp))'''
 
     #print (test.copy_init(test))
