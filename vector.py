@@ -2,6 +2,7 @@ import random
 import unittest
 import copy
 import numpy as np
+from math import sqrt
 
 """
 This class implements a simple vector object that uses a multidimensional
@@ -14,7 +15,6 @@ class Vector:
 
 
     def matrix(self, shape):
-
         if(len(shape)==1):
             return [(np.random.normal()) for i in range(shape[0])]
         else:
@@ -70,7 +70,18 @@ class Vector:
         returns - distance to v2
         """
 
-        raise NotImplementedError
+    '''    if(len(shape)==1):
+            return((self.values[i]-v2.values[i])**2 for i in )
+            return [(np.random.normal()) for i in range(shape[0])]
+        else:
+            return [self.matrix(shape[1:])for x in range(shape[0])]'''
+
+
+
+
+
+
+        #raise NotImplementedError
 
     def __eq__(self, v2):
         """
@@ -81,7 +92,6 @@ class Vector:
 
         returns - whether vectors match or not
         """
-
         if (self.values == v2.values and self.shape == v2.shape):
             return True
         else:
@@ -97,18 +107,19 @@ class Vector:
 
         returns - transpose vector
         """
-
         #just for 1d or 2d arrays
         if(len(self.shape)==1):
             switch = self.matrix([self.shape[0],1])
             for i in range(self.shape[0]):
                 switch[i][0] = self.values[i]
 
-        else:
+        elif (len(self.shape)==2):
             switch = self.matrix([self.shape[1], self.shape[0]])
             for i in range(self.shape[0]):
                 for j in range(self.shape[1]):
                     switch[j][i] = self.values[i][j]
+        else:
+            raise Exception('matrix must be 1d or 2d')
 
         flip = Vector(switch,None)
         return flip
