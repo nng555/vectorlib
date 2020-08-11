@@ -1,5 +1,6 @@
 import random
 import unittest
+import numpy as np
 
 from vector import Vector
 
@@ -16,6 +17,11 @@ class LinearTransform:
 
         transform - the matrix used for this transformation
         """
+        self.transform = []
+        if(len(transform)==2):
+            self.transform = transform
+        else:
+            raise Exception('not 2D arrays')
 
     @classmethod
     def random_init(self, in_dim, out_dim):
@@ -26,6 +32,10 @@ class LinearTransform:
         in_dim - transformation input dimension
         out_dim - transformation output dimension
         """
+        self.transform = []
+        for i in range(in_dim):
+            for j in range(out_dim):
+                self.transform[i][j] = np.random.normal()
 
     def forward(self, v):
         """
@@ -44,8 +54,10 @@ class LinearTransformTest(unittest.TestCase):
         self.v1 = Vector([1, 3, 2])
         self.t1 = LinearTransform(
                 transform=[[1, 2, 3],
-                           [4, 5, 6]]
-        )
+                           [4, 5, 6]])
+        print(self.t1)
+        self.random = self.t1.random_init(2,2)
+        print(self.random)
 
     def testTransform(self):
         tmp = Vector([13, 31])
@@ -54,4 +66,3 @@ class LinearTransformTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-
