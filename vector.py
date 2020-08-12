@@ -52,13 +52,13 @@ class Vector:
         #raise NotImplementedError
 
     @classmethod
-    def copy_init(self, v2):
+    def copy_init(cls, v2):
         """
         Initialize by performing a deep copy of v2
 
         v2 - vector to copy
         """
-        return copy.deepcopy(Vector(v2.values,None))
+        return cls(copy.deepcopy(v2.values))
         #raise NotImplementedError
 
     def distance(self,vals,shapes):
@@ -156,8 +156,6 @@ class VectorTest(unittest.TestCase):
         self.assertEqual(self.v3.shape, [4])
         self.assertEqual(self.v4.shape, [4, 4])
         tmp = Vector(shape=[2,2,2])
-        print(tmp.shape)
-        print(tmp.values)
         self.assertEqual(tmp.shape, [2,2,2])
 
     # test the deep copy
@@ -168,13 +166,10 @@ class VectorTest(unittest.TestCase):
     # test transposing row to column vector
     def testTranspose(self):
         tmp = Vector([[2], [6], [3], [5]])
-        print(self.v3.shape)
         self.assertEqual(tmp, self.v3.transpose())
 
     # test calculating l2 distance
     def testl2(self):
-        print(self.v1.l2(self.v2))
-        print(self.v2.l2(self.v3))
         self.assertAlmostEqual(self.v1.l2(self.v2), 4.0, places=4)
         self.assertAlmostEqual(self.v2.l2(self.v3), 3.4641, places=4)
 

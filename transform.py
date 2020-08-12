@@ -24,7 +24,7 @@ class LinearTransform:
             raise Exception('not 2D arrays')
 
     @classmethod
-    def random_init(self, in_dim, out_dim):
+    def random_init(cls, in_dim, out_dim):
         """
         Initialize the transformation matrix randomly as
         out_dim x in_dim
@@ -32,10 +32,11 @@ class LinearTransform:
         in_dim - transformation input dimension
         out_dim - transformation output dimension
         """
-        self.transform = []
+        transform = []
         for i in range(in_dim):
             for j in range(out_dim):
-                self.transform[i][j] = np.random.normal()
+                transform[i][j] = np.random.normal()
+        return cls(transform)
 
     def forward(self, v):
         """
@@ -56,7 +57,7 @@ class LinearTransformTest(unittest.TestCase):
                 transform=[[1, 2, 3],
                            [4, 5, 6]])
         print(self.t1)
-        self.random = self.t1.random_init(2,2)
+        self.random = LinearTransform.random_init(2,2)
         print(self.random)
 
     def testTransform(self):
