@@ -36,6 +36,7 @@ class LinearTransform:
         for i in range(in_dim):
             for j in range(out_dim):
                 transform[i][j] = np.random.normal()
+
         return cls(transform)
 
     def forward(self, v):
@@ -57,7 +58,7 @@ class LinearTransformTest(unittest.TestCase):
                 transform=[[1, 2, 3],
                            [4, 5, 6]])
         print(self.t1)
-        self.random = LinearTransform.random_init(2,2)
+        self.random = LinearTransform.random_init(4,2)
         print(self.random)
 
     def testTransform(self):

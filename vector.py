@@ -13,6 +13,15 @@ test
 
 class Vector:
 
+    def get_shape(self,values):
+        cntr = 0
+        if not type(values) == list:
+            return self.shape
+        else:
+            for i in range(len(values)):
+                cntr += 1
+            self.shape.append(cntr)
+            return self.get_shape(values[0])
 
     def matrix(self, shape):
         if(len(shape)==1):
@@ -38,7 +47,11 @@ class Vector:
         elif(values != None and shape == None):
             self.values = values
             # TODO: Not allowed to use np here...you need to get the shape yourself
-            self.shape = list(np.shape(self.values))
+            self.shape = []
+            self.shape = self.get_shape(self.values)
+
+
+            #self.shape = list(np.shape(self.values))
 
         # both are defined
         # initialize self.values
@@ -61,21 +74,24 @@ class Vector:
         return cls(copy.deepcopy(v2.values))
         #raise NotImplementedError
 
-    def distance(self,vals,shapes):
+    def distance(self,v2,temp):
         """
         recursive method to calculate distance
 
         returns sum of all of the distances
 
         """
-        num = 0
         sum = 0
-        if(len(shapes)==1):
-            for i in range(shapes[0]):
-                sum += ((self.values[i]-vals[i])**2)
+        if (len(v2.shape) == 1):
+            for i in range(v2.shape[0]):
+                sum += ((temp.values[i] - v2.values[i])**2)
             return sum
         else:
-            return num+distance(vals, shape[1:])
+            for i in range(v2.shape[0]):
+                tmp1 = Vector(v2.values[i], v2.shape[1:])
+                tmp2 = Vector(temp.values[i], temp.shape[1:])
+                sum += self.distance(tmp1,tmp2)
+            return sum
 
     def l2(self, v2):
         """
@@ -86,7 +102,8 @@ class Vector:
         returns - distance to v2
         """
         # uses recursive distance method and takes the square root of it
-        return sqrt(self.distance(v2.values, v2.shape))
+        temp = self.copy_init(self)
+        return self.distance(v2,temp)
 
         #raise NotImplementedError
 
@@ -144,11 +161,16 @@ class VectorTest(unittest.TestCase):
               [2, 3, 4, 5],
               [3, 4, 5, 6],
               [4, 5, 6, 7]]
+        v5 = [[[2,10],[2,10]],[[3,3],[3,3]]]
+        v6 = [[[4,4],[2,2]],[[5,1],[6,3]]]
+
 
         self.v1 = Vector(v1)
         self.v2 = Vector(v2)
         self.v3 = Vector(v3)
         self.v4 = Vector(v4)
+        self.v5 = Vector(v5)
+        self.v6 = Vector(v6)
 
     # check some shapes
     def testShape(self):
@@ -170,8 +192,9 @@ class VectorTest(unittest.TestCase):
 
     # test calculating l2 distance
     def testl2(self):
-        self.assertAlmostEqual(self.v1.l2(self.v2), 4.0, places=4)
-        self.assertAlmostEqual(self.v2.l2(self.v3), 3.4641, places=4)
+        self.assertAlmostEqual(self.v1.l2(self.v2), 16.0, places=4)
+        self.assertAlmostEqual(self.v2.l2(self.v3), 12.0, places=4)
+        print(self.v5.l2(self.v6))
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
