@@ -14,6 +14,11 @@ test
 class Vector:
 
     def get_shape(self,values):
+    '''
+    Runs through the values and counts the number of elements
+    per dimension
+    Returns final shape list when it's no longer a list (past 1D)
+    '''
         cntr = 0
         if not type(values) == list:
             return self.shape
@@ -24,6 +29,11 @@ class Vector:
             return self.get_shape(values[0])
 
     def matrix(self, shape):
+    '''
+    Goes through the shape list until it reaches the last dimension
+    and recurisvly builds lists within lists to produce the values
+    Values are random
+    '''
         if(len(shape)==1):
             return [(np.random.normal()) for i in range(shape[0])]
         else:
