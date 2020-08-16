@@ -61,8 +61,6 @@ class Vector:
             self.shape = self.get_shape(self.values)
 
 
-            #self.shape = list(np.shape(self.values))
-
         # both are defined
         # initialize self.values
         # initialize self.shape
@@ -148,10 +146,16 @@ class Vector:
                 switch[i][0] = self.values[i]
 
         elif (len(self.shape)==2):
-            switch = self.matrix([self.shape[1], self.shape[0]])
-            for i in range(self.shape[0]):
-                for j in range(self.shape[1]):
-                    switch[j][i] = self.values[i][j]
+
+            if(self.shape[1] == 1):
+                switch = self.matrix([self.shape[0]])
+                for i in range(self.shape[0]):
+                        switch[i] = self.values[i][0]
+            else:
+                switch = self.matrix([self.shape[1], self.shape[0]])
+                for i in range(self.shape[0]):
+                    for j in range(self.shape[1]):
+                        switch[j][i] = self.values[i][j]
         else:
             raise Exception('matrix must be 1d or 2d')
 

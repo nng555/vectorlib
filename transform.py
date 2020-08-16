@@ -84,11 +84,11 @@ class LinearTransform:
                         vals[i][j] += self.transform[i][k] * v.values[k][j]
 
             transV = Vector(vals,None)
+            transV = transV.transpose()
             return transV
 
         else:
             raise Exception('not matching dimensions')
-
 
 class LinearTransformTest(unittest.TestCase):
 
@@ -105,7 +105,7 @@ class LinearTransformTest(unittest.TestCase):
         print(self.random)
 
     def testTransform(self):
-        tmp = Vector([[13], [31]])
+        tmp = Vector([13, 31])
         print ((self.t1.forward(self.v1)).values)
         self.assertEqual(tmp.values, (self.t1.forward(self.v1)).values)
 
