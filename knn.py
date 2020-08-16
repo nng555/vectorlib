@@ -12,6 +12,9 @@ class kNN:
 
         k - number of neighbors to poll
         """
+
+        # TODO: set self.k
+
         raise NotImplementedError
 
     def fit(self, x, y):
@@ -21,6 +24,11 @@ class kNN:
         x (Vector) - input vectors to fit
         y (Vector) - output classes to fit
         """
+
+        # TODO: store x and y and make sure they are in the right format
+        # x should be 2d with dimensions (# examples x # features)
+        # y should be 1d with dimesnsions # examples
+
         raise NotImplementedError
 
     def predict(self, query):
@@ -29,4 +37,10 @@ class kNN:
 
         query - data point or points to predict the class of
         """
+
+        # TODO: loop through every point
+        #    TODO: inside loop, calculate the l2 distance between the query
+        #          and every input point
+        # TODO: sort the distances (np.argsort is useful here)
+        #       then return the majority vote label
         raise NotImplementedError
