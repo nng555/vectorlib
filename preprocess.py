@@ -82,6 +82,7 @@ def preprocess(input_file, output_path, train_frac, valid_frac):
 
     for data_vector, fname in zip(data_vectors, fnames):
         with open(os.path.join(output_path, fname + '.vec'), 'wb') as of:
+            print("Dumping {} with shape {}".format(fname, data_vector.shape))
             pickle.dump(data_vector, of)
 
 if __name__ == "__main__":
