@@ -77,6 +77,7 @@ class kNN:
 
         # return most common value in list
         freq = Counter(nearest)
+        
         majority = freq.values[0]
 
         for value in freq.values:
