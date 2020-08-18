@@ -34,6 +34,7 @@ def preprocess(input_file, output_path, train_frac, valid_frac):
         """
         # row already list bc it was read with a csv.reader
         # features are the first 4 elements
+        print (row)
         feat = row[:4]
         # label is the last element
         label = row[4]
@@ -80,23 +81,23 @@ def preprocess(input_file, output_path, train_frac, valid_frac):
               'x_test', 'y_test']
 
     for data_vector, fname in zip(data_vectors, fnames):
-        with open(os.path.join(output_path, fname), 'wb') as of:
+        with open(os.path.join(output_path, fname + '.vec'), 'wb') as of:
             pickle.dump(data_vector, of)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.addArgument('-i', '--input', type=str,
+    parser.add_argument('-i', '--input', type=str,
                        help='Input csv file for preprocessing')
-    parser.addArgument('-o', '--output', type=str,
+    parser.add_argument('-o', '--output', type=str,
                        help='Output path for processed objects')
-    parser.addArgument('-t', '--train', type=float,
+    parser.add_argument('-t', '--train', type=float,
                        help='Fraction of data in training split')
-    parser.addArgument('-v', '--validation', type=float,
+    parser.add_argument('-v', '--validation', type=float,
                        help='Fraction of data in validation split. '
                             'Remaining fraction is used for test split.')
     args = parser.parse_args()
 
-    if args.train + args.valid > 1:
+    if args.train + args.validation > 1:
         raise Exception('Train and valid split cannot be more than 1.0')
 
-    preprocess(args.input, args.output, args.train, args.valid)
+    preprocess(args.input, args.output, args.train, args.validation)

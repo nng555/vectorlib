@@ -57,11 +57,11 @@ def train(k, data_dir, test=False):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.addArgument('-k', type=int,
+    parser.add_argument('-k', type=int,
                        help='Hyperparameter k for kNN')
-    parser.addArgument('-d', '--data-dir', type=str,
+    parser.add_argument('-d', '--data-dir', type=str,
                        help='Path to data directory')
-    parser.addArgument('-t', '--test', action='store_true',
+    parser.add_argument('-t', '--test', action='store_true',
                        help='whether to evaluate on the test set. '
                             'If not set, will use validation set.')
     args = parser.parse_args()
