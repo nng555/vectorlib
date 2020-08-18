@@ -55,8 +55,13 @@ def preprocess(input_file, output_path, train_frac, valid_frac):
     # TODO: shuffle the data
 
     # do I need to write my own shuffle function or is this ok?
-    random.shuffle(feats)
-    random.shuffle(labels)
+    #random.shuffle(feats)
+    #random.shuffle(labels)
+
+    # I think I need to shuffle in unison so the feats/labels still match
+    # not sure if I did this correctly though
+    feats_shuffle, labels_shuffle = sklearn.utils.shuffle(feats, shuffle)
+
 
     # TODO: split data into training, validation, and test splits
     test_frac = 1.0 - train_frac - valid_frac
@@ -65,13 +70,13 @@ def preprocess(input_file, output_path, train_frac, valid_frac):
 
     # not sure if I did this correctly - I might've misunderstood what needed
     # to be done
-    x_train = Vector(feats[:train_frac])
-    y_train = Vector(labels[:train_frac])
-    x_valid = Vector(feats[train_frac:valid_frac])
-    y_valid = Vector(labels[train_frac:valid_frac])
-    x_test = Vector(feats[valid_frac:test_frac])
-    y_test = Vector(labels[valid_frac:test_frac])
-    
+    x_train = Vector(feats_shuffle[:train_frac])
+    y_train = Vector(labels_shuffle[:train_frac])
+    x_valid = Vector(feats_shuffle[train_frac:valid_frac])
+    y_valid = Vector(labels_shuffle[train_frac:valid_frac])
+    x_test = Vector(feats_shuffle[valid_frac:test_frac])
+    y_test = Vector(labels_shuffle[valid_frac:test_frac])
+
     data_vectors = [x_train, y_train,
                     x_valid, y_valid,
                     x_test, y_test]
