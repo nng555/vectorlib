@@ -1,4 +1,5 @@
 import numpy as np
+from statistics import mode
 
 from vector import Vector
 
@@ -63,10 +64,18 @@ class kNN:
             temp = Vector(self.x[i])
             distance[i] = temp.l2(query)
 
-        # sort the distances
+        # indices of sorted distances from smallest to largest
         sorted = np.argsort(distance)
-        nearest = sorted[:k]
 
+        # list with k labels
+        nearest = [(0) for i in range(self.k)]
 
+        # for k number of times
+        for i in range(self.k):
+            # find label of feature with smallest distance
+            nearest[i] = self.y[sorted[i]]
+
+        # return most common value in list
+        return mode(nearest)
 
         #raise NotImplementedError
