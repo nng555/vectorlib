@@ -32,7 +32,16 @@ def preprocess(input_file, output_path, train_frac, valid_frac):
             feat [float] - list of input features
             label [int] - output label
         """
-        raise NotImplementedError
+        # splitting the row into list separated by comma
+        info = row.split(',')
+        # features are the first 4 elements
+        feat = info[:4]
+        # label is the last element
+        label = info[4]
+
+        return feat, label
+
+        #raise NotImplementedError
 
     # load data from csv file and process each row
     feats, labels = list(), list()
@@ -45,16 +54,24 @@ def preprocess(input_file, output_path, train_frac, valid_frac):
 
     # TODO: shuffle the data
 
+    # do I need to write my own shuffle function or is this ok?
+    random.shuffle(feats)
+    random.shuffle(labels)
+
     # TODO: split data into training, validation, and test splits
     test_frac = 1.0 - train_frac - valid_frac
 
     # TODO: turn each train/valid/test feat and label list into a Vector
-    # x_train = ...
-    # y_train = ...
-    # x_valid = ...
-    # y_valid = ...
-    # x_test = ...
-    # y_test = ...
+
+    # not sure if I did this correctly - I might've misunderstood what needed
+    # to be done
+    x_train = Vector(feats[:train_frac])
+    y_train = Vector(labels[:train_frac])
+    x_valid = Vector(feats[train_frac:valid_frac])
+    y_valid = Vector(labels[train_frac:valid_frac])
+    x_test = Vector(feats[valid_frac:test_frac])
+    y_test = Vector(labels[valid_frac:test_frac])
+    
     data_vectors = [x_train, y_train,
                     x_valid, y_valid,
                     x_test, y_test]
