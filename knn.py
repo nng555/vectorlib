@@ -35,7 +35,7 @@ class kNN:
         #checking dimensions (2d for x and 1d for y)
         if(len(x.shape) == 2 and len(y.shape) == 1):
             #checking to see if they have the same # of examples
-            if(x.shape[0] == y.shape[0]:
+            if(x.shape[0] == y.shape[0]):
                 self.x = x
                 self.y = y
             else:
@@ -58,25 +58,32 @@ class kNN:
         # TODO: sort the distances (np.argsort is useful here)
         #       then return the majority vote label
 
-        distance = [(0) for i in range(len(self.x))]
+        distance = []
 
-        for i in range(len(self.x)):
-            temp = Vector(self.x[i])
-            distance[i] = temp.l2(query)
+        for i in range(self.x.shape[0]):
+            temp = Vector(self.x.values[i])
+            distance.append(temp.l2(query))
 
         # indices of sorted distances from smallest to largest
         sorted = np.argsort(distance)
 
         # list with k labels
-        nearest = [(0) for i in range(self.k)]
+        nearest = []
 
         # for k number of times
         for i in range(self.k):
             # find label of feature with smallest distance
-            nearest[i] = self.y[sorted[i]]
+            nearest.append(self.y.values[sorted[i]])
 
         # return most common value in list - if more than one mode it returns an arbitrary one
-        majority = Counter(nearest).most_common(1)[0][0]
+
+        #majority = Counter(nearest).most_common(1)[0][0]
+
+        freq = {}
+        for item in nearest:
+            freq[item] = nearest.count(item)
+
+        majority = max(freq, key=freq.get)
         
         return majority
 

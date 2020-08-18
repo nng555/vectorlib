@@ -4,6 +4,7 @@ import pickle
 import os
 
 from knn import kNN
+from vector import Vector
 
 def train(k, data_dir, test=False):
     """
@@ -25,7 +26,7 @@ def train(k, data_dir, test=False):
               'x_test', 'y_test']
     data_vectors = []
     for fname in fnames:
-        with open(os.path.join(data_dir, fname), 'rb') as in_file:
+        with open(os.path.join(data_dir, fname + '.vec'), 'rb') as in_file:
             data = pickle.load(in_file)
             data_vectors.append(data)
 
@@ -37,6 +38,7 @@ def train(k, data_dir, test=False):
     model = kNN(k)
 
     # TODO: fit the model
+    model.fit(x_train, y_train)
 
     # evaluate the model on the evaluation data
     if test:
@@ -49,11 +51,16 @@ def train(k, data_dir, test=False):
     for i in range(num_eval):
         # TODO: query the model
         # TODO: increment num_correct if correct
+        query = Vector(x_eval.values[i])
+
+        prediction = model.predict(query)
+        if(prediction == y_eval.values[i]):
+            num_correct += 1
 
     # print the evaluation results
     accuracy = num_correct/num_eval
     eval_name = 'test' if test else 'valid'
-    print("Accuracy with k = {} on {} is {}".format(k, eval_name, accuracy)
+    print("Accuracy with k = {} on {} is {}".format(k, eval_name, accuracy))
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()

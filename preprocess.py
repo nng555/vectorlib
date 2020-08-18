@@ -3,6 +3,8 @@ import csv
 import numpy as np
 import os
 import pickle
+import sklearn
+#from sklearn.utils import shuffle
 
 from vector import Vector
 
@@ -34,10 +36,11 @@ def preprocess(input_file, output_path, train_frac, valid_frac):
         """
         # row already list bc it was read with a csv.reader
         # features are the first 4 elements
-        print (row)
-        feat = row[:4]
+        #print (row)
+        feat = [float(val) for val in row[:4]]
         # label is the last element
         label = row[4]
+
         return feat, label
 
         #raise NotImplementedError
@@ -53,23 +56,23 @@ def preprocess(input_file, output_path, train_frac, valid_frac):
 
     # TODO: shuffle the data
     # shuffle the 2 lists in unison
-    feats_shuffle, labels_shuffle = sklearn.utils.shuffle(feats, shuffle)
+    feats_shuffle, labels_shuffle = sklearn.utils.shuffle(feats, labels)
 
     # TODO: split data into training, validation, and test splits
     test_frac = 1.0 - train_frac - valid_frac
 
     # num of examples per fraction
-    numTest = test_frac*len(labels)
-    numTrain = train_frac*len(labels)
-    numValid = valid_frac*len(labels)
+    numTest = int(test_frac * len(labels))
+    numTrain = int(train_frac * len(labels))
+    numValid = int(valid_frac * len(labels))
 
     # TODO: turn each train/valid/test feat and label list into a Vector
     x_train = Vector(feats_shuffle[:numTrain])
     y_train = Vector(labels_shuffle[:numTrain])
-    x_valid = Vector(feats_shuffle[numTrain:numValid])
-    y_valid = Vector(labels_shuffle[numTrain:numValid])
-    x_test = Vector(feats_shuffle[numValid:numTest])
-    y_test = Vector(labels_shuffle[numValid:numTest])
+    x_valid = Vector(feats_shuffle[numTrain:numValid + numTrain])
+    y_valid = Vector(labels_shuffle[numTrain:numValid + numTrain])
+    x_test = Vector(feats_shuffle[numValid + numTrain:])
+    y_test = Vector(labels_shuffle[numValid + numTrain:])
 
     data_vectors = [x_train, y_train,
                     x_valid, y_valid,
