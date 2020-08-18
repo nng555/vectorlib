@@ -32,13 +32,11 @@ def preprocess(input_file, output_path, train_frac, valid_frac):
             feat [float] - list of input features
             label [int] - output label
         """
-        # splitting the row into list separated by comma
-        info = row.split(',')
+        # row already list bc it was read with a csv.reader
         # features are the first 4 elements
-        feat = info[:4]
+        feat = row[:4]
         # label is the last element
-        label = info[4]
-
+        label = row[4]
         return feat, label
 
         #raise NotImplementedError
@@ -53,29 +51,24 @@ def preprocess(input_file, output_path, train_frac, valid_frac):
             labels.append(label)
 
     # TODO: shuffle the data
-
-    # do I need to write my own shuffle function or is this ok?
-    #random.shuffle(feats)
-    #random.shuffle(labels)
-
-    # I think I need to shuffle in unison so the feats/labels still match
-    # not sure if I did this correctly though
+    # shuffle the 2 lists in unison
     feats_shuffle, labels_shuffle = sklearn.utils.shuffle(feats, shuffle)
-
 
     # TODO: split data into training, validation, and test splits
     test_frac = 1.0 - train_frac - valid_frac
 
-    # TODO: turn each train/valid/test feat and label list into a Vector
+    # num of examples per fraction
+    numTest = test_frac*len(labels)
+    numTrain = train_frac*len(labels)
+    numValid = valid_frac*len(labels)
 
-    # not sure if I did this correctly - I might've misunderstood what needed
-    # to be done
-    x_train = Vector(feats_shuffle[:train_frac])
-    y_train = Vector(labels_shuffle[:train_frac])
-    x_valid = Vector(feats_shuffle[train_frac:valid_frac])
-    y_valid = Vector(labels_shuffle[train_frac:valid_frac])
-    x_test = Vector(feats_shuffle[valid_frac:test_frac])
-    y_test = Vector(labels_shuffle[valid_frac:test_frac])
+    # TODO: turn each train/valid/test feat and label list into a Vector
+    x_train = Vector(feats_shuffle[:numTrain])
+    y_train = Vector(labels_shuffle[:numTrain])
+    x_valid = Vector(feats_shuffle[numTrain:numValid])
+    y_valid = Vector(labels_shuffle[numTrain:numValid])
+    x_test = Vector(feats_shuffle[numValid:numTest])
+    y_test = Vector(labels_shuffle[numValid:numTest])
 
     data_vectors = [x_train, y_train,
                     x_valid, y_valid,
