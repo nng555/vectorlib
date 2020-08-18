@@ -1,6 +1,7 @@
 import argparse
 import csv
 import numpy as np
+import os
 import pickle
 
 from vector import Vector
