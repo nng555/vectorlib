@@ -33,9 +33,9 @@ class kNN:
         # y should be 1d with dimesnsions # examples
 
         #checking dimensions (2d for x and 1d for y)
-        if((not isinstance(x[0][0],list)) and (not isinstance(y[0],list))):
+        if(len(x.shape) == 2 and len(y.shape) == 1):
             #checking to see if they have the same # of examples
-            if(len(x) == len(y)):
+            if(x.shape[0] == y.shape[0]:
                 self.x = x
                 self.y = y
             else:
@@ -76,6 +76,13 @@ class kNN:
             nearest[i] = self.y[sorted[i]]
 
         # return most common value in list
-        return mode(nearest)
+        freq = Counter(nearest)
+        majority = freq.values[0]
+
+        for value in freq.values:
+            if (value > majority):
+                majority = value
+
+        return majority
 
         #raise NotImplementedError
