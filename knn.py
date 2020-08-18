@@ -75,15 +75,9 @@ class kNN:
             # find label of feature with smallest distance
             nearest[i] = self.y[sorted[i]]
 
-        # return most common value in list
-        freq = Counter(nearest)
+        # return most common value in list - if more than one mode it returns an arbitrary one
+        majority = Counter(nearest).most_common(1)[0][0]
         
-        majority = freq.values[0]
-
-        for value in freq.values:
-            if (value > majority):
-                majority = value
-
         return majority
 
         #raise NotImplementedError
