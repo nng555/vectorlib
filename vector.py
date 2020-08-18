@@ -13,6 +13,12 @@ test
 
 class Vector:
 
+    def __getitem__(self, key):
+        return self.values[key]
+
+    def __setitem__(self, key, value):
+        self.values[key] = value
+
     def get_shape(self,values):
         '''
         Runs through the values and counts the number of elements
@@ -92,12 +98,12 @@ class Vector:
         sum = 0
         if (len(v2.shape) == 1):
             for i in range(v2.shape[0]):
-                sum += ((temp.values[i] - v2.values[i])**2)
+                sum += ((temp[i] - v2[i])**2)
             return sum
         else:
             for i in range(v2.shape[0]):
-                tmp1 = Vector(v2.values[i], v2.shape[1:])
-                tmp2 = Vector(temp.values[i], temp.shape[1:])
+                tmp1 = Vector(v2[i])
+                tmp2 = Vector(temp[i])
                 sum += self.distance(tmp1,tmp2)
             return sum
 
@@ -143,19 +149,19 @@ class Vector:
         if(len(self.shape)==1):
             switch = self.matrix([self.shape[0],1])
             for i in range(self.shape[0]):
-                switch[i][0] = self.values[i]
+                switch[i][0] = self[i]
 
         elif (len(self.shape)==2):
 
             if(self.shape[1] == 1):
                 switch = self.matrix([self.shape[0]])
                 for i in range(self.shape[0]):
-                        switch[i] = self.values[i][0]
+                        switch[i] = self[i][0]
             else:
                 switch = self.matrix([self.shape[1], self.shape[0]])
                 for i in range(self.shape[0]):
                     for j in range(self.shape[1]):
-                        switch[j][i] = self.values[i][j]
+                        switch[j][i] = self[i][j]
         else:
             raise Exception('matrix must be 1d or 2d')
 
