@@ -51,10 +51,10 @@ def train(k, data_dir, test=False):
     for i in range(num_eval):
         # TODO: query the model
         # TODO: increment num_correct if correct
-        query = Vector(x_eval.values[i])
+        query = Vector(x_eval[i])
 
         prediction = model.predict(query)
-        if(prediction == y_eval.values[i]):
+        if(prediction == y_eval[i]):
             num_correct += 1
 
     # print the evaluation results
