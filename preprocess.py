@@ -58,7 +58,10 @@ def preprocess(dataset, output_path, train_frac, valid_frac, normalize):
         # TODO: Process a row of wine data. Look at the web page and the actual data
         #       to see exactly how to do this. In this case its okay to hard code in
         #       your indices.
-        raise NotImplementedError
+        label = int(row[0])
+        feat = [float(val) for val in row[1:]]
+
+        # raise NotImplementedError
 
     # load data from csv file and process each row
     feats, labels = list(), list()
@@ -93,6 +96,8 @@ def preprocess(dataset, output_path, train_frac, valid_frac, normalize):
     y_valid = Vector(labels_shuffle[numTrain:numValid + numTrain])
     x_test = Vector(feats_shuffle[numValid + numTrain:])
     y_test = Vector(labels_shuffle[numValid + numTrain:])
+
+    # TODO: check for normalization
 
     data_vectors = [x_train, y_train,
                     x_valid, y_valid,

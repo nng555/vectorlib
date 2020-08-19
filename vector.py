@@ -144,27 +144,40 @@ class Vector:
         then its transpose will have shape [x, 1]
         """
         #just for 1d or 2d arrays
+
+        # transposing a row to column
         if(len(self.shape)==1):
-            switch = self.matrix([self.shape[0],1])
+            tmp = Vector.copy_init(self)
+            self.values = []
+            self.shape = [self.shape[0],1]
+
             for i in range(self.shape[0]):
-                switch[i][0] = self[i]
+                self.values.append([tmp[i]])
 
+        # 2d array
         elif (len(self.shape)==2):
-
+            # transposing column to row
             if(self.shape[1] == 1):
-                switch = self.matrix([self.shape[0]])
+                tmp = Vector.copy_init(self)
+                self.values = []
+                self.shape = [self.shape[0]]
+
                 for i in range(self.shape[0]):
-                        switch[i] = self[i][0]
+                    self.values.append(tmp[i][0])
+            # reg 2d array
             else:
-                switch = self.matrix([self.shape[1], self.shape[0]])
-                for i in range(self.shape[0]):
-                    for j in range(self.shape[1]):
-                        switch[j][i] = self[i][j]
+                tmp = Vector.copy_init(self)
+                self.values = []
+                self.shape = [tmp.shape[1], tmp.shape[0]]
+
+                self.values = [[0 for i in range(self.shape[1])]for x in range(self.shape[0])]
+                for i in range(tmp.shape[0]):
+                    for j in range(tmp.shape[1]):
+                        self.values[j][i] = (tmp[i][j])
+
         else:
             raise Exception('matrix must be 1d or 2d')
 
-        flip = Vector(switch,None)
-        return flip
         #raise NotImplementedError
 
     def normalize(self):
@@ -179,21 +192,24 @@ class Vector:
         """
 
         # TODO: Check if vector is 2d
+        if(len(self.shape)==2):
+            # transpose the vector to be # features x # examples
+            self.transpose()
 
-        # transpose the vector to be # features x # examples
-        self.transpose()
+            # iterate over each set of feature values
+            for i in range(self.shape[0]):
+                # TODO: calculate the mean of self.values[i]
 
-        # iterate over each set of feature values
-        for i in range(self.shape[0]):
-            # TODO: calculate the mean of self.values[i]
 
-            # TODO: calculate the std of self.values[i]
+                # TODO: calculate the std of self.values[i]
 
-            # normalize each value
-            self.values[i] = [(val - mean)/std for val in self.values[i]]
+                # normalize each value
+                self.values[i] = [(val - mean)/std for val in self.values[i]]
 
-        # transpose back
-        self.transpose()
+            # transpose back
+            self.transpose()
+        else:
+            raise Exception('matrix must be 2d')
 
 
 class VectorTest(unittest.TestCase):
@@ -210,7 +226,8 @@ class VectorTest(unittest.TestCase):
               [4, 5, 6, 7]]
         v5 = [[[2,10],[2,10]],[[3,3],[3,3]]]
         v6 = [[[4,4],[2,2]],[[5,1],[6,3]]]
-
+        v7 = [[3, 5, 6, 4],
+              [2, 6, 3, 5]]
 
         self.v1 = Vector(v1)
         self.v2 = Vector(v2)
@@ -218,6 +235,7 @@ class VectorTest(unittest.TestCase):
         self.v4 = Vector(v4)
         self.v5 = Vector(v5)
         self.v6 = Vector(v6)
+        self.v7 = Vector(v7)
 
     # check some shapes
     def testShape(self):
@@ -235,12 +253,18 @@ class VectorTest(unittest.TestCase):
     # test transposing row to column vector
     def testTranspose(self):
         tmp = Vector([[2], [6], [3], [5]])
+        tmp2 = Vector([[3,2],[5,6],[6,3],[4,5]])
+
         tmp.transpose()
         self.assertEqual(tmp, self.v3)
         tmp.transpose()
         self.v3.transpose()
         self.assertEqual(tmp, self.v3)
         self.v3.transpose()
+
+        tmp2.transpose()
+        print(tmp2.values)
+        #self.assertEqual(tmp2.values, self.v7.values)
 
     # test calculating l2 distance
     def testl2(self):
