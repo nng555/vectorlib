@@ -58,3 +58,22 @@ The first step of any experiments we run will be to download and preprocess your
 ### Tuning the Hyperparameters
 
 Once our data is preprocessed, we can start running experiments on our data.
+
+## UCI Wine Dataset
+
+To see how the scale of different parameters affects our kNN algorithm, we will use the [UCI Wine Dataset](https://archive.ics.uci.edu/ml/datasets/Wine). This dataset contains 178 data points of wine measurements and labels of where they came from. Again, our task will be to predict which area each wine came from. However, this problem is a little harder because we have 13 features instead of 4, and each will have different scales. We will perform kNN with and without feature normalization
+and analyze how our performance changes.
+
+### Preprocessing the Data
+
+Preprocess the data like you did for the Iris dataset. Since all we need to change is how each row is changed into features and labels, fill in the `process_wine_row` method. Once you have this written, you can run `preprocess.py` on the wine data and get the training, validation, and test vectors!
+
+### kNN without Normalization
+
+First try running kNN without normalizing any of the data and use the raw feature values. Tune your `k` value on the validation set then test it on the test set and write down the test accuracy. Does our classifier seem to be able to do well?
+
+### kNN with Normalization
+
+Now we will normalize our features. In the Vector class complete the `normalize` function. This function operates in place, meaning that we will change the vector itself rather than returning a new Vector. Once we have this function complete, use the `normalize` parameter in `preprocess.py` to add logic to normalize the vectors before we write them to disk.
+
+Finally, run our experiments on Iris and Wine again, but this time normalizing our features. How do the results change with and without normalization?

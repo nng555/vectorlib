@@ -13,7 +13,7 @@ This file will preprocess our input data into a train validation
 and test split, then dump it to a set of files.
 """
 
-def preprocess(input_file, output_path, train_frac, valid_frac):
+def preprocess(dataset, output_path, train_frac, valid_frac):
     """
     Preprocess the input csv and separate out the features and labels.
     Split
@@ -24,9 +24,9 @@ def preprocess(input_file, output_path, train_frac, valid_frac):
     valid_frac - fraction of data for validation split
     """
 
-    def process_row(row):
+    def process_iris_row(row):
         """
-        Process a single row and return the features and label
+        Process a single row of iris data and return the features and label
 
         row - input data row from csv
 
@@ -45,12 +45,32 @@ def preprocess(input_file, output_path, train_frac, valid_frac):
 
         #raise NotImplementedError
 
+    def process_wine_row(row):
+        """
+        Process a single row of wine data and return the features and label
+
+        row - input data row from csv
+
+        returns:
+            feat [float] - list of input features
+            label [int] - output label
+        """
+        # TODO: Process a row of wine data. Look at the web page and the actual data
+        #       to see exactly how to do this. In this case its okay to hard code in
+        #       your indices.
+        raise NotImplementedError
+
     # load data from csv file and process each row
     feats, labels = list(), list()
-    with open(input_file, 'r') as in_file:
+    with open(dataset + '.data', 'r') as in_file:
         reader = csv.reader(in_file)
         for row in reader:
-            feat, label = process_row(row)
+            if dataset == 'iris':
+                feat, label = process_iris_row(row)
+            elif dataset == 'wine':
+                feat, label = process_wine_row(row)
+            else:
+                raise Exception("Dataset not supported!")
             feats.append(feat)
             labels.append(label)
 
@@ -90,8 +110,6 @@ def preprocess(input_file, output_path, train_frac, valid_frac):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('-i', '--input', type=str,
-                       help='Input csv file for preprocessing')
     parser.add_argument('-o', '--output', type=str,
                        help='Output path for processed objects')
     parser.add_argument('-t', '--train', type=float,
@@ -99,9 +117,11 @@ if __name__ == "__main__":
     parser.add_argument('-v', '--validation', type=float,
                        help='Fraction of data in validation split. '
                             'Remaining fraction is used for test split.')
+    parser.add_argument('-d', '--dataset', type=str,
+                       help='Dataset to process. Must be one of [iris, wine]')
     args = parser.parse_args()
 
     if args.train + args.validation > 1:
         raise Exception('Train and valid split cannot be more than 1.0')
 
-    preprocess(args.input, args.output, args.train, args.validation)
+    preprocess(args.dataset, args.output, args.train, args.validation)

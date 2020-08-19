@@ -69,7 +69,7 @@ class LinearTransform:
         # transform x vector
         #initilizae vals with rows=rows of transform and columns=columns of v
 
-        v = v.transpose()
+        v.transpose()
 
         vals = [[(0) for i in range(v.shape[1])]for x in range(len(self.transform))]
 
@@ -84,7 +84,8 @@ class LinearTransform:
                         vals[i][j] += self.transform[i][k] * v.values[k][j]
 
             transV = Vector(vals,None)
-            transV = transV.transpose()
+            transV.transpose()
+            v.transpose()
             return transV
 
         else:

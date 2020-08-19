@@ -142,8 +142,6 @@ class Vector:
         Transpose the vector. If vector is one dimensional
         with shape [x] (which is implicitly [1, x]),
         then its transpose will have shape [x, 1]
-
-        returns - transpose vector
         """
         #just for 1d or 2d arrays
         if(len(self.shape)==1):
@@ -168,6 +166,35 @@ class Vector:
         flip = Vector(switch,None)
         return flip
         #raise NotImplementedError
+
+    def normalize(self):
+        """
+        Normalize the vector. Vector input should be 2 dimensional, with
+        dimensions (# examples x # features). To normalize, each feature
+        should be subtracted by its mean, and then divided by its standard
+        deviation. You may find `np.average` and `np.std` useful. You may
+        also find it useful to transpose the vector first, to make the
+        dimensions (# features x # examples), so indexing the values [i]
+        will give you all of the ith feature values.
+        """
+
+        # TODO: Check if vector is 2d
+
+        # transpose the vector to be # features x # examples
+        self.transpose()
+
+        # iterate over each set of feature values
+        for i in range(self.shape[0]):
+            # TODO: calculate the mean of self.values[i]
+
+            # TODO: calculate the std of self.values[i]
+
+            # normalize each value
+            self.values[i] = [(val - mean)/std for val in self.values[i]]
+
+        # transpose back
+        self.transpose()
+
 
 class VectorTest(unittest.TestCase):
     # vector class unit tests
@@ -208,7 +235,12 @@ class VectorTest(unittest.TestCase):
     # test transposing row to column vector
     def testTranspose(self):
         tmp = Vector([[2], [6], [3], [5]])
-        self.assertEqual(tmp, self.v3.transpose())
+        tmp.transpose()
+        self.assertEqual(tmp, self.v3)
+        tmp.transpose()
+        self.v3.transpose()
+        self.assertEqual(tmp, self.v3)
+        self.v3.transpose()
 
     # test calculating l2 distance
     def testl2(self):
