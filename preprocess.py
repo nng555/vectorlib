@@ -13,7 +13,7 @@ This file will preprocess our input data into a train validation
 and test split, then dump it to a set of files.
 """
 
-def preprocess(dataset, output_path, train_frac, valid_frac, normalize):
+def preprocess(dataset, output_path, train_frac, valid_frac, normalize, seed):
     """
     Preprocess the input csv and separate out the features and labels.
     Split
@@ -22,7 +22,12 @@ def preprocess(dataset, output_path, train_frac, valid_frac, normalize):
     output_path - path to output data folder
     train_frac - fraction of data for training split
     valid_frac - fraction of data for validation split
+    normalize - whether or not to normalize the feature vectors
+    seed - random seed to use for data splits
     """
+
+    # set the random seed
+    np.random.seed(seed)
 
     def process_iris_row(row):
         """
@@ -119,11 +124,13 @@ if __name__ == "__main__":
                             'Remaining fraction is used for test split.')
     parser.add_argument('-d', '--dataset', type=str,
                        help='Dataset to process. Must be one of [iris, wine]')
-    parser.add_argument('-n', '--normalize', action=store_true,
+    parser.add_argument('-n', '--normalize', action='store_true',
                         help='Whether to normalize featuers or not.')
+    parser.add_argument('-s', '--seed', type=int, default=42,
+                        help='Random seed to use')
     args = parser.parse_args()
 
     if args.train + args.validation > 1:
         raise Exception('Train and valid split cannot be more than 1.0')
 
-    preprocess(args.dataset, args.output, args.train, args.validation, args.normalize)
+    preprocess(args.dataset, args.output, args.train, args.validation, args.normalize, args.seed)
