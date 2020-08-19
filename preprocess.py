@@ -13,7 +13,7 @@ This file will preprocess our input data into a train validation
 and test split, then dump it to a set of files.
 """
 
-def preprocess(dataset, output_path, train_frac, valid_frac):
+def preprocess(dataset, output_path, train_frac, valid_frac, normalize):
     """
     Preprocess the input csv and separate out the features and labels.
     Split
@@ -119,9 +119,11 @@ if __name__ == "__main__":
                             'Remaining fraction is used for test split.')
     parser.add_argument('-d', '--dataset', type=str,
                        help='Dataset to process. Must be one of [iris, wine]')
+    parser.add_argument('-n', '--normalize', action=store_true,
+                        help='Whether to normalize featuers or not.')
     args = parser.parse_args()
 
     if args.train + args.validation > 1:
         raise Exception('Train and valid split cannot be more than 1.0')
 
-    preprocess(args.dataset, args.output, args.train, args.validation)
+    preprocess(args.dataset, args.output, args.train, args.validation, args.normalize)
