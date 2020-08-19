@@ -199,10 +199,10 @@ class Vector:
             # iterate over each set of feature values
             for i in range(self.shape[0]):
                 # TODO: calculate the mean of self.values[i]
-
+                mean = np.average(self[i])
 
                 # TODO: calculate the std of self.values[i]
-
+                std = np.std(self[i], dtype=np.float64)
                 # normalize each value
                 self.values[i] = [(val - mean)/std for val in self.values[i]]
 
@@ -264,7 +264,7 @@ class VectorTest(unittest.TestCase):
 
         tmp2.transpose()
         print(tmp2.values)
-        #self.assertEqual(tmp2.values, self.v7.values)
+        self.assertEqual(tmp2, self.v7)
 
     # test calculating l2 distance
     def testl2(self):

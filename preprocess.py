@@ -66,6 +66,7 @@ def preprocess(dataset, output_path, train_frac, valid_frac, normalize, seed):
         label = int(row[0])
         feat = [float(val) for val in row[1:]]
 
+        return feat, label
         # raise NotImplementedError
 
     # load data from csv file and process each row
@@ -120,6 +121,8 @@ def preprocess(dataset, output_path, train_frac, valid_frac, normalize, seed):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
+    parser.add_argument('-d', '--dataset', type=str,
+                       help='Dataset to process. Must be one of [iris, wine]')
     parser.add_argument('-o', '--output', type=str,
                        help='Output path for processed objects')
     parser.add_argument('-t', '--train', type=float,
@@ -127,8 +130,6 @@ if __name__ == "__main__":
     parser.add_argument('-v', '--validation', type=float,
                        help='Fraction of data in validation split. '
                             'Remaining fraction is used for test split.')
-    parser.add_argument('-d', '--dataset', type=str,
-                       help='Dataset to process. Must be one of [iris, wine]')
     parser.add_argument('-n', '--normalize', action='store_true',
                         help='Whether to normalize featuers or not.')
     parser.add_argument('-s', '--seed', type=int, default=42,
