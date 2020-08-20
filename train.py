@@ -74,5 +74,8 @@ if __name__ == '__main__':
                             'If not set, will use validation set.')
     args = parser.parse_args()
 
-    for k in range(1, 107):
+    with open(os.path.join(args.data_dir, 'y_train.vec'), 'rb') as in_file:
+        len = pickle.load(in_file)
+
+    for k in range(1, len.shape[0]+1):
         train(k, args.data_dir, args.test)
