@@ -104,7 +104,11 @@ def preprocess(dataset, output_path, train_frac, valid_frac, normalize, seed):
     y_test = Vector(labels_shuffle[numValid + numTrain:])
 
     # TODO: check for normalization
-
+    if normalize:
+        x_train.normalize()
+        x_valid.normalize()
+        x_test.normalize()
+        
     data_vectors = [x_train, y_train,
                     x_valid, y_valid,
                     x_test, y_test]

@@ -60,7 +60,8 @@ def train(k, data_dir, test=False):
     # print the evaluation results
     accuracy = num_correct/num_eval
     eval_name = 'test' if test else 'valid'
-    print("Accuracy with k = {} on {} is {}".format(k, eval_name, accuracy))
+    #print("Accuracy with k = {} on {} is {}".format(k, eval_name, accuracy))
+    print(accuracy)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -73,4 +74,5 @@ if __name__ == '__main__':
                             'If not set, will use validation set.')
     args = parser.parse_args()
 
-    train(args.k, args.data_dir, args.test)
+    for k in range(1, 107):
+        train(k, args.data_dir, args.test)

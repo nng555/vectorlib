@@ -192,7 +192,7 @@ class Vector:
         """
 
         # TODO: Check if vector is 2d
-        if(len(self.shape)==2):
+        if(len(self.shape)==2 or len(self.shape)==1):
             # transpose the vector to be # features x # examples
             self.transpose()
 
