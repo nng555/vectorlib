@@ -77,3 +77,50 @@ First try running kNN without normalizing any of the data and use the raw featur
 Now we will normalize our features. In the Vector class complete the `normalize` function. This function operates in place, meaning that we will change the vector itself rather than returning a new Vector. Once we have this function complete, use the `normalize` parameter in `preprocess.py` to add logic to normalize the vectors before we write them to disk.
 
 Finally, run our experiments on Iris and Wine again, but this time normalizing our features. How do the results change with and without normalization?
+
+# Linear Regression using Backpropagation
+
+For our final model we will build a simple linear regressor that learns via backpropagation. Our model will be implemented in `regression.py`. `forward` will calculate our predicted values for each input. `get_loss` will return the loss of our model and the gradient of our loss with respect to our model output. This gradient is used in `backward` in order to move our weights towards lower loss.
+
+## Backpropagation
+
+1. First complete the gradient calculation of dL/do. Remember that our loss metric is mean squared error.
+
+2. Then complete the gradient update of the weights using dL/dw. Since our gradient points us in the positive direction, we will need move our weights in the opposite direction of the gradient.
+
+## Seoul Bike Sharing
+
+We will be predicting bike share demand using the [Seoul Bike Sharing Dataset](https://archive.ics.uci.edu/ml/datasets/Seoul+Bike+Sharing+Demand). This dataset contains 8760 data points of various weather metrics in Seoul during particular times of day, and we would like to predict how many bikes we expect to be used. We can throw away the date feature since it will be hard to encode. We will use the rest of the features. Look through the website and `bike.data` to see how the values
+correspond.
+
+1. Season information is contained in `row[-3]`. Instead of representing the seasons with numbers, we will use a one-hot vector that has 4 elements. A `1` in one of these elements will represent each season. For example, `[0,0,0,1]` can represent Winter, and `[0,1,0,0]` can represent Summer. Fill out the extension of the feature data with the season features.
+
+2. Holiday information is contained in `row[-2]`. Add a feature that is a 0 if there is no holiday, and a 1 if there is a holiday.
+
+3. Bike functionality information is contained in `row[-1]`. Add a feature that is 0 if the bikes are not working, and a 1 if they are working.
+
+4. To simplify our model, we include the model bias as a feature. Add a bias feature that is 1 for every example.
+
+Finally, preprocess our data into a data directory, making sure to pass in the normalization flag.
+
+## Training Loop
+
+Now that our data is preprocessed we will complete the training loop. This loop will go through our data multiple times and update our model. Every time our model "sees" all of our data once, that is called one epoch. Since we don't want our model to see all the data at once, we randomly select small chunks of data at a time, called batches. Notice the two loops on lines 46 and 55 that loop over our epochs and batches.
+
+1. Initialize our model. Using `x_train` and `y_train`, find out the number of features and number of outputs then use these to initialize our regression model
+
+2. Once we have our `x_batch`  we need to pass it through our model. Fill out a single line of code to generate predictions on our inputs.
+
+3. With our inputs, we can calculate how bad our model is, and how we can improve it. Fill out a single line of code to generate our model loss and gradient.
+
+4. With our gradient, we can update our model to make it better. Fill out a single line of code to run backpropagation with our gradients.
+
+5. Every epoch, we want to monitor how well our model is doing. Make predictions and calculate the loss on the validation set.
+
+## Analyzing the Model
+
+With our training loop complete, we can learn a model with backpropagation! Start with training for 10 epochs and a batch size of 128. Try the following learning rates: `[1, 0.1, 0.001, 0.0001, 0.00001]`. 
+
+1. What happens to our validation loss when our learning rate is too high? What about when our learning rate is too low?
+
+2. Look at the weights of the model after it is done training with the best performing learning rate. What does a positive weight mean? What does a negative weight mean? Are these numbers what you expect?

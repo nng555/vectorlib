@@ -48,8 +48,6 @@ def preprocess(dataset, output_path, train_frac, valid_frac, normalize, seed):
 
         return feat, label
 
-        #raise NotImplementedError
-
     def process_wine_row(row):
         """
         Process a single row of wine data and return the features and label
@@ -67,7 +65,27 @@ def preprocess(dataset, output_path, train_frac, valid_frac, normalize, seed):
         feat = [float(val) for val in row[1:]]
 
         return feat, label
-        # raise NotImplementedError
+
+    def process_bike_row(row):
+        """
+        Process a single row of bike data and return the features and label
+        """
+        # Process a row of bike data. Throw away the date field
+        label = [int(row[1])]
+        feat = [float(val) for val in row[2:-3]]
+
+        # TODO: Add a categorical feature for which season it is. This information is
+        # contained in row[-3]. Each season should get its own feature.
+
+        # TODO: Add a binary feature for whether there is a holiday or not. This
+        # information is contained in row[-2]
+
+        # TODO: Add a binary feature for whether the bikes are working or not. This
+        # information is contained in row[-1]
+
+        # TODO: Add an extra feature for our bias
+
+        return feat, label
 
     # load data from csv file and process each row
     feats, labels = list(), list()
@@ -78,14 +96,26 @@ def preprocess(dataset, output_path, train_frac, valid_frac, normalize, seed):
                 feat, label = process_iris_row(row)
             elif dataset == 'wine':
                 feat, label = process_wine_row(row)
+            elif dataset == 'bike':
+                feat, label = process_bike_row(row)
             else:
                 raise Exception("Dataset not supported!")
             feats.append(feat)
             labels.append(label)
 
-    # TODO: shuffle the data
     # shuffle the 2 lists in unison
     feats_shuffle, labels_shuffle = sklearn.utils.shuffle(feats, labels)
+    feats_shuffle = Vector(feats_shuffle)
+    labels_shuffle = Vector(labels_shuffle)
+
+    if normalize:
+        if dataset == 'bike':
+            start = 0
+            end = 9
+        else:
+            start = 0
+            end = x_train.shape[0]
+        feats_shuffle.normalize(start, end)
 
     # TODO: split data into training, validation, and test splits
     test_frac = 1.0 - train_frac - valid_frac
@@ -103,12 +133,7 @@ def preprocess(dataset, output_path, train_frac, valid_frac, normalize, seed):
     x_test = Vector(feats_shuffle[numValid + numTrain:])
     y_test = Vector(labels_shuffle[numValid + numTrain:])
 
-    # TODO: check for normalization
-    if normalize:
-        x_train.normalize()
-        x_valid.normalize()
-        x_test.normalize()
-        
+
     data_vectors = [x_train, y_train,
                     x_valid, y_valid,
                     x_test, y_test]

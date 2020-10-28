@@ -19,6 +19,48 @@ class Vector:
     def __setitem__(self, key, value):
         self.values[key] = value
 
+    def __add__(self, val):
+        if val.shape != self.shape:
+            raise Exception("Adding vectors without the same shape!")
+
+        if len(self.shape) == 1:
+            return Vector([self[i] + val[i] for i in range(self.shape[0])])
+        else:
+            return Vector([(Vector(self[i]) + Vector(val[i])).values for i in range(self.shape[0])])
+
+    def __sub__(self, val):
+        if val.shape != self.shape:
+            raise Exception("Adding vectors without the same shape!")
+
+        if len(self.shape) == 1:
+            return Vector([self[i] - val[i] for i in range(self.shape[0])])
+        else:
+            return Vector([(Vector(self[i]) - Vector(val[i])).values for i in range(self.shape[0])])
+
+    def __mul__(self, val):
+        if isinstance(val, Vector):
+            if len(self.shape) != 1 or len(val.shape) != 1:
+                raise Exception("Can only multiply 1d vectors")
+
+            return sum([self[i] * val[i] for i in range(self.shape[0])])
+        elif isinstance(val, float):
+            if len(self.shape) == 1:
+                return Vector([self[i] * val for i in range(self.shape[0])])
+            else:
+                return Vector([(Vector(self[i]) * val).values for i in range(self.shape[0])])
+
+    def twod_matmul(self, val):
+        if self.shape[1] != val.shape[0]:
+            raise Exception("Shape mismatch!")
+
+        res = Vector(shape=[self.shape[0], val.shape[1]])
+        for i in range(self.shape[0]):
+            for j in range(val.shape[1]):
+                res[i][j] = Vector(self[i]) * Vector([val[k][j] for k in range(val.shape[0])])
+
+        return res
+
+
     def get_shape(self,values):
         '''
         Runs through the values and counts the number of elements
@@ -180,7 +222,7 @@ class Vector:
 
         #raise NotImplementedError
 
-    def normalize(self):
+    def normalize(self, start, end):
         """
         Normalize the vector. Vector input should be 2 dimensional, with
         dimensions (# examples x # features). To normalize, each feature
@@ -197,14 +239,14 @@ class Vector:
             self.transpose()
 
             # iterate over each set of feature values
-            for i in range(self.shape[0]):
+            for i in range(start, end):
                 # TODO: calculate the mean of self.values[i]
                 mean = np.average(self[i])
 
                 # TODO: calculate the std of self.values[i]
                 std = np.std(self[i], dtype=np.float64)
                 # normalize each value
-                self.values[i] = [(val - mean)/std for val in self.values[i]]
+                self[i] = [(val - mean)/std for val in self[i]]
 
             # transpose back
             self.transpose()
@@ -228,6 +270,8 @@ class VectorTest(unittest.TestCase):
         v6 = [[[4,4],[2,2]],[[5,1],[6,3]]]
         v7 = [[3, 5, 6, 4],
               [2, 6, 3, 5]]
+        v8 = [8, 12, 10, 6]
+        v9 = [2, 2, -2, -2]
 
         self.v1 = Vector(v1)
         self.v2 = Vector(v2)
@@ -236,6 +280,8 @@ class VectorTest(unittest.TestCase):
         self.v5 = Vector(v5)
         self.v6 = Vector(v6)
         self.v7 = Vector(v7)
+        self.v8 = Vector(v8)
+        self.v9 = Vector(v9)
 
     # check some shapes
     def testShape(self):
@@ -263,14 +309,29 @@ class VectorTest(unittest.TestCase):
         self.v3.transpose()
 
         tmp2.transpose()
-        print(tmp2.values)
         self.assertEqual(tmp2, self.v7)
 
     # test calculating l2 distance
     def testl2(self):
         self.assertAlmostEqual(self.v1.l2(self.v2), 16.0, places=4)
         self.assertAlmostEqual(self.v2.l2(self.v3), 12.0, places=4)
-        print(self.v5.l2(self.v6))
+
+    def testAdd(self):
+        self.assertEqual(self.v8, self.v1 + self.v2)
+
+    def testSub(self):
+        self.assertEqual(self.v9, self.v1 - self.v2)
+
+    def testMul(self):
+        self.assertEqual(82, self.v1 * self.v2)
+
+    def testTwodMul(self):
+        tmp = Vector([[-4],[0]])
+        self.v9.transpose()
+        self.assertEqual(tmp, self.v7.twod_matmul(self.v9))
+        self.v9.transpose()
+
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
