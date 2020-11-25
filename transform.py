@@ -58,10 +58,10 @@ class LinearTransform:
 class LinearTransformTest(unittest.TestCase):
 
     def setUp(self):
-        self.v1 = Vector([1, 3, 2])
+        self.v1 = Vector([[1, 3]])
         self.t1 = LinearTransform(
-                transform=[[1, 2,3],
-                            [4,5,6]])
+                transform=Vector([[1, 2, 3],
+                                  [4, 5, 6]]))
 
         print(self.t1)
         print(self.t1.transform)
@@ -70,7 +70,7 @@ class LinearTransformTest(unittest.TestCase):
         print(self.random)
 
     def testTransform(self):
-        tmp = Vector([13, 31])
+        tmp = Vector([[13, 17, 21]])
         print ((self.t1.forward(self.v1)).values)
         self.assertEqual(tmp.values, (self.t1.forward(self.v1)).values)
 

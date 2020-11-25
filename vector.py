@@ -51,7 +51,7 @@ class Vector:
 
     def twod_matmul(self, val):
         if self.shape[1] != val.shape[0]:
-            raise Exception("Shape mismatch!")
+            raise Exception("Shape mismatch! {} is not {}".format(self.shape[1], val.shape[0]))
 
         res = Vector(shape=[self.shape[0], val.shape[1]])
         for i in range(self.shape[0]):
