@@ -15,6 +15,7 @@ class Regression:
 
         in_dim - input dimension of model
         out_dim - output dimension of model
+        lr - learning rate
         logistic - whether or not to do logistic regression
         """
         self.weights = LinearTransform.random_init(in_dim, out_dim)
@@ -30,7 +31,7 @@ class Regression:
     def get_loss(self, y, out):
 
         # calculate loss
-        error = y - out
+        error = out - y
         loss = 0
         numel = 0
         for i in range(error.shape[0]):
@@ -40,7 +41,7 @@ class Regression:
         loss = loss/numel
 
         # TODO: calculate gradient
-        # dLdo =
+        dLdo = error
 
         return loss, dLdo
 
@@ -50,5 +51,5 @@ class Regression:
         dLdw = dLdw * (1./x.shape[0])
 
         # TODO: update weights
-        # grad =
-        # self.weights.transform =
+        grad = lr*dLdw
+        self.weights.transform = self.weights.transform - grad
