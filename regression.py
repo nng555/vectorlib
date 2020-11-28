@@ -51,5 +51,5 @@ class Regression:
         dLdw = dLdw * (1./x.shape[0])
 
         # TODO: update weights
-        grad = lr*dLdw
+        grad = dLdw * self.lr
         self.weights.transform = self.weights.transform - grad

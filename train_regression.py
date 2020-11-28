@@ -37,9 +37,10 @@ def train(lr, batch_size, num_epochs, data_dir, test=False):
      x_test, y_test] = data_vectors
 
     # TODO: initialize the regression model
-    # num_features =
-    # num_outputs =
-    # model =
+    num_features = x_train.shape[1]
+    num_outputs = y_train.shape[1]
+
+    model = Regression(num_features, num_outputs, lr)
 
     # TODO: fit the model
     batch_num = int(x_train.shape[0]/batch_size) + 1
@@ -57,15 +58,18 @@ def train(lr, batch_size, num_epochs, data_dir, test=False):
             y_batch = Vector(y_train[batch * batch_size:(batch+1) * batch_size])
 
             # TODO: make predictions on the batch
+            test_pred = model.forward(x_batch)
 
             # TODO: get your model loss and gradient
+            test_loss, test_gradient = model.get_loss(y_batch,test_pred)
 
             # TODO: run backpropagation
+            model.backward(x_batch,test_gradient)
 
         # TODO: make predictions on the validation data
-
+        valid_pred = model.forward(x_valid)
         # TODO: calculate the loss on our validation data
-        # valid_loss, _ = ...
+        valid_loss, valid_grad = model.get_loss(y_valid,valid_pred)
 
         print("Validation loss: {}".format(str(valid_loss)))
 
@@ -90,4 +94,3 @@ if __name__ == '__main__':
         len = pickle.load(in_file)
 
     train(args.l, args.b, args.n, args.data_dir, args.test)
-

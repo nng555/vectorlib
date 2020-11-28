@@ -74,23 +74,25 @@ def preprocess(dataset, output_path, train_frac, valid_frac, normalize, seed):
         label = [int(row[1])]
         feat = [float(val) for val in row[2:-3]]
 
+        for i in range(4):
+            feat.append(0)
         # TODO: Add a categorical feature for which season it is. This information is
         # contained in row[-3]. Each season should get its own feature.
         if row[-3] == 'Spring':
-            feat[-3] =[1,0,0,0]
+            feat[-4] = 1
         elif row[-3] == 'Summer':
-            feat[-3] = [0,1,0,0]
+            feat[-3] = 1
         elif row[-3] == 'Autumn':
-            feat[-3] = [0,0,1,0]
+            feat[-2] = 1
         else:
-            feat[-3] = [0,0,0,1]
+            feat[-1]=0
 
         # TODO: Add a binary feature for whether there is a holiday or not. This
         # information is contained in row[-2]
         if row[-2] == 'Holiday':
-            feat[-2]=1
+            feat.append(1)
         else:
-            feat[-2]=0
+            feat.append(0)
 
         # TODO: Add a binary feature for whether the bikes are working or not. This
         # information is contained in row[-1]
