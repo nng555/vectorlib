@@ -97,9 +97,9 @@ def preprocess(dataset, output_path, train_frac, valid_frac, normalize, seed):
         # TODO: Add a binary feature for whether the bikes are working or not. This
         # information is contained in row[-1]
         if row[-1]== 'Yes':
-            feat[-1] = 1
+            feat.append(1)
         else:
-            feat[-1] = 0
+            feat.append(0)
         # TODO: Add an extra feature for our bias
         feat.append(1)
 
